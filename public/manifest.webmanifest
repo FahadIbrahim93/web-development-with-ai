@@ -1,0 +1,17 @@
+{
+  "name": "Web Development with AI",
+  "short_name": "WebDev × AI",
+  "description": "Interactive courses that teach everyday people to build professional websites with AI.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

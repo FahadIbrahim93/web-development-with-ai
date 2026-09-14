@@ -1,0 +1,52 @@
+# Backend deployment sync — Convex production.
+#
+# The frontend needs no CI deploy: the repo is Git-integrated with Vercel,
+# so every push to main ships the site automatically. The only gap is the
+# Convex backend, which would otherwise drift behind merged schema/function
+# changes. This workflow closes it.
+#
+# It is gated on CONVEX_DEPLOY_KEY: without the secret, the job skips
+# itself, so forked clones and the public mirror never fail on push.
+#
+# One-time setup (repo owner):
+#   1. bunx convex deploy --prod --create  (first time only — creates prod)
+#   2. Print a deploy key: Convex dashboard → Settings → Deploy keys,
+#      or: bunx convex deploy --prod --create-key
+#   3. GitHub repo → Settings → Secrets and variables → Actions:
+#      New repository secret → CONVEX_DEPLOY_KEY = <the key>
+#   4. Re-run this workflow (or push) — backend now ships with every push.
+#
+# Production env vars (STRIPE_*, RESEND_*, EMAIL_FROM, OWNER_EMAIL, …) are
+# set once in the Convex dashboard, not here — secrets never live in the repo.
+
+name: Deploy Convex (prod)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/convex/**"
+      - ".github/workflows/deploy-convex.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # env context works in step-level if's (not job-level), so the
+      # skip-guard lives here: no secret configured = no deploy attempt.
+      - name: Push functions to production
+        if: ${{ env.CONVEX_DEPLOY_KEY != '' }}
+        run: bunx convex deploy --prod

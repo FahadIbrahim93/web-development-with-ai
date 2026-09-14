@@ -1,0 +1,25 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+
+# Environment — never commit real values (see .env.example for the reference)
+.env*
+!.env.example
+
+# Convex generated code is committed on purpose: CI typechecks against it
+# when no CONVEX_DEPLOY_KEY secret is available to regenerate it.
+
+# OS / editor junk
+.DS_Store
+*.log
+.vercel
+
+# Platform runtime + one-off agent scratch files
+isolate/
+*.tmp.mjs
+*.tmp.txt
+
+# Source snapshots (use git for real versioning)
+*.tar.gz

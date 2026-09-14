@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Auth and admin surfaces are private — keep them out of search indexes.
+Disallow: /auth
+Disallow: /admin
+
+Sitemap: https://web-development-with-ai.vercel.app/sitemap.xml
