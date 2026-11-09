@@ -6,8 +6,9 @@ An interactive course platform that teaches everyday people — shop owners,
 freelancers, students, the curious — how to build a professional website for
 themselves, with AI as their typing assistant. No coding background required.
 
-Built as a real, sellable product: catalog + checkout + bookings + community
-+ admin, all in one app.
+Built as a course platform: catalog, checkout, bookings, community, and admin, all in one app.
+
+> **Environment note:** This project was initially published through a managed builder environment (no git binary; initial publish via the GitHub REST API). Ordinary local development uses `git clone` + `bun`. Each setup path is labelled where it appears.
 
 **Design system:** Neobrutalism Minimalism — square corners, 2px black
 borders, flat color blocking, hard offset shadows, bold but controlled
@@ -223,8 +224,7 @@ Run these once, in test mode, before selling to real students:
 3. **Guardrails.** Confirm the demo-checkout banner is gone once real keys
    exist, and that a logged-out visitor hitting Buy is sent to sign-in and
    returned to the right module afterwards.
-4. **First admin.** Visit `/admin`, click **Claim admin**, so ownership
-   can't be taken by a stranger.
+4. **First admin.** Visit `/admin`, click **Claim admin**, so ownership can't be taken by a stranger. **Flag for separate technical review:** the first-visitor "Claim admin" ownership flow has not been independently reviewed as a security boundary — do not treat it as a confirmed vulnerability or as hardened access control.
 
 ## GitHub repository
 
